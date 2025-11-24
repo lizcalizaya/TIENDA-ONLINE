@@ -31,3 +31,4 @@ class PedidoAdmin(admin.ModelAdmin):
 @admin.register(PedidoImagenes)
 class PedidoImagenesAdmin(admin.ModelAdmin):
     list_display = ('id', 'pedido', 'imagen')
+
