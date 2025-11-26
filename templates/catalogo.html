@@ -1,0 +1,11 @@
+<h1>Catálogo de Productos</h1>
+
+<ul>
+    {% for p in productos %}
+    <li>
+        <a href="/producto/{{ p.id }}/">
+            {{ p.nombre }} - ${{ p.precio_base }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>

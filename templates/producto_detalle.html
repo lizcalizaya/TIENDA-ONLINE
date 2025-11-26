@@ -1,0 +1,11 @@
+<h1>{{ producto.nombre }}</h1>
+
+<p>{{ producto.descripcion }}</p>
+<p>Precio: ${{ producto.precio_base }}</p>
+
+{% if producto.imagen1 %}
+    <img src="{{ producto.imagen1.url }}" width="200">
+{% endif %}
+
+<br><br>
+<a href="/">Volver al catálogo</a>
