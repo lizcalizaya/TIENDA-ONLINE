@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="text-center mb-4" style="color:#28c76f; font-weight:700;">
+    ✏️ Solicitud de Pedido
+</h2>
+
+{% if producto %}
+<div class="alert alert-success text-center fw-bold">
+    Solicitando: {{ producto.nombre }}
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="card shadow p-4 mx-auto" style="max-width: 800px; border-radius:18px;">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Nombre cliente:</label>
+                    <input type="text" name="nombre_cliente" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="fw-bold">Email:</label>
+                    <input type="email" name="email" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Teléfono:</label>
+                    <input type="text" name="telefono" class="form-control">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="fw-bold">Fecha necesaria:</label>
+                    <input type="date" name="fecha_necesidad" class="form-control">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="fw-bold">Descripción:</label>
+                <textarea name="descripcion" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="fw-bold">Imágenes de referencia:</label>
+                <input type="file" name="imagenes" multiple class="form-control">
+                <small class="text-muted">Puedes subir varias imágenes (opcional)</small>
+            </div>
+
+            <button type="submit" class="btn w-100 text-white" 
+                    style="background:#28c76f; font-size:18px;">
+                Enviar Solicitud
+            </button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,30 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="mb-4">Catálogo de Productos</h2>
 
-<div class="row">
+<h2 class="mb-4 fw-bold">🛒 Catálogo de Productos</h2>
+
+<!-- BUSCADOR -->
+<form method="GET" action="/" class="d-flex mb-4"><input type="text"name="q"class="form-control"placeholder="Buscar producto..."value="{{ request.GET.q }}">
+    <button class="btn btn-success ms-2">Buscar</button>
+</form>
+
+
+<div class="row g-4">
+
     {% for p in productos %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
+    <div class="col-md-4 col-lg-3">
+        <div class="card producto-card">
 
             {% if p.imagen1 %}
-            <img src="{{ p.imagen1.url }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                <img src="{{ p.imagen1.url }}" class="card-img-top" style="height:180px; object-fit:cover;">
             {% else %}
-            <div class="bg-secondary text-white p-5 text-center">
-                Sin imagen
-            </div>
+                <div class="d-flex justify-content-center align-items-center bg-secondary text-white" style="height:180px;">
+                    Sin imagen
+                </div>
             {% endif %}
 
             <div class="card-body">
-                <h5 class="card-title">{{ p.nombre }}</h5>
-                <p class="card-text">${{ p.precio_base }}</p>
-                <a href="/producto/{{ p.id }}/" class="btn btn-primary">Ver detalles</a>
-            </div>
+                <h5 class="card-title fw-bold">{{ p.nombre }}</h5>
+                <p class="card-text text-success fw-bold">${{ p.precio_base }}</p>
 
+                <a href="/producto/{{ p.id }}/" class="btn btn-success w-100">
+                    Ver detalles
+                </a>
+            </div>
         </div>
     </div>
     {% endfor %}
+
 </div>
 
 {% endblock %}
+

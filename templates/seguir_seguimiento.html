@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center mt-5">
+
+    <h2 class="fw-bold" style="color:#28c76f;">
+        🔍 Seguir Pedido
+    </h2>
+
+    <p class="mt-2">Pega aquí tu código recibido al enviar el pedido:</p>
+
+    <form action="{% url 'seguir_seguimiento' %}" method="GET" 
+          class="d-flex justify-content-center mt-3">
+
+        <input type="text" name="codigo" 
+               placeholder="Código de seguimiento"
+               class="form-control w-50">
+
+        <button class="btn btn-success ms-2">Ver pedido</button>
+    </form>
+
+</div>
+
+{% endblock %}

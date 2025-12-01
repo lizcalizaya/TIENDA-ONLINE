@@ -23,10 +23,11 @@ class InsumoAdmin(admin.ModelAdmin):
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'cliente', 'producto', 'plataforma', 'estado', 'pago', 'fecha_requerida', 'creado')
+    list_display = ('id', 'nombre_cliente', 'producto', 'plataforma', 'estado', 'pago', 'fecha_necesidad', 'fecha_creado')
     list_filter = ('plataforma', 'estado', 'pago')
-    search_fields = ('cliente', 'email', 'telefono', 'descripcion')
-    readonly_fields = ('token', 'creado')        
+    search_fields = ('nombre_cliente', 'email', 'telefono', 'descripcion')
+    readonly_fields = ('token', 'fecha_creado')
+       
 
 @admin.register(PedidoImagenes)
 class PedidoImagenesAdmin(admin.ModelAdmin):

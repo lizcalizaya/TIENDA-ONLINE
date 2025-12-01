@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 import uuid
 
 class Categoria(models.Model):
@@ -8,6 +8,7 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
     
+
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -23,6 +24,8 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
     
+
+
 class Insumo(models.Model):
     nombre = models.CharField(max_length=100)
     tipo = models.CharField(max_length=100)
@@ -33,6 +36,7 @@ class Insumo(models.Model):
 
     def __str__(self):
         return self.nombre
+
 
 PLATAFORMAS = [
     ('facebook', 'Facebook'),
@@ -61,25 +65,47 @@ ESTADO_PAGO = [
 
 
 class Pedido(models.Model):
-    cliente = models.CharField(max_length=100)
-    email = models.EmailField(blank=True, null=True)
-    telefono = models.CharField(max_length=50, blank=True, null=True)
+    nombre_cliente = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
 
     producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True, blank=True)
 
-    descripcion = models.TextField(blank=True, null=True)
-    fecha_requerida = models.DateField(blank=True, null=True)
+    descripcion = models.TextField()
+    fecha_necesidad = models.DateField(blank=True, null=True)
 
-    plataforma = models.CharField(max_length=20, choices=PLATAFORMAS, default='web')
-    estado = models.CharField(max_length=20, choices=ESTADOS_PEDIDO, default='solicitado')
-    pago = models.CharField(max_length=20, choices=ESTADO_PAGO, default='pendiente')
+    imagen_referencia = models.ImageField(upload_to='pedidos/', null=True, blank=True)
 
-    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    plataforma = models.CharField(
+        max_length=20,
+        choices=PLATAFORMAS,
+        default='web'
+    )
 
-    creado = models.DateTimeField(auto_now_add=True)
+    estado = models.CharField(
+        max_length=20,
+        choices=ESTADOS_PEDIDO,
+        default='solicitado'
+    )
+
+    pago = models.CharField(
+        max_length=20,
+        choices=ESTADO_PAGO,
+        default='pendiente'
+    )
+
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+
+    fecha_creado = models.DateTimeField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        if self.estado == 'finalizada' and self.pago != 'pagado':
+            raise ValueError("No puedes finalizar un pedido sin pagarlo.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Pedido #{self.id} - {self.cliente}"
+        return f"Pedido de {self.nombre_cliente}"
+
 
 class PedidoImagenes(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='imagenes')

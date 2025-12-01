@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center mt-5">
+
+    <h2 class="fw-bold" style="color:#28c76f;">
+        ¡Pedido recibido con éxito! 🎉
+    </h2>
+
+    <p class="mt-3 fs-5">
+        Tu solicitud ha sido registrada correctamente.
+    </p>
+
+    <div class="mt-4">
+        <p class="fw-bold mb-1">Código de seguimiento:</p>
+
+        <div id="codigo" 
+             class="p-3 border rounded"
+             style="display:inline-block; background:#e8f9f0; font-size:18px; font-weight:bold;">
+            {{ token }}
+        </div>
+
+        <button onclick="copiarCodigo()"
+                class="btn btn-outline-success ms-3"
+                style="padding:10px 18px; border-radius:10px;">
+            📋 Copiar código
+        </button>
+    </div>
+
+    <a href="/seguimiento/{{ token }}/" 
+       class="btn mt-4 text-white"
+       style="background:#28c76f; font-size:20px; padding:12px 28px; border-radius:12px;">
+        Ver seguimiento del pedido 🔍
+    </a>
+
+    <br><br>
+
+    <a href="/" class="btn btn-outline-success mt-2" 
+       style="font-size:16px; padding:10px 22px; border-radius:10px;">
+        Volver al catálogo
+    </a>
+
+</div>
+
+
+<script>
+function copiarCodigo() {
+    const codigo = document.getElementById("codigo").innerText;
+    navigator.clipboard.writeText(codigo)
+        .then(() => alert("Código copiado al portapapeles ✔"))
+        .catch(() => alert("Error al copiar el código ❌"));
+}
+</script>
+
+{% endblock %}
