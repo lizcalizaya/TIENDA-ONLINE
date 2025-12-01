@@ -1,11 +1,30 @@
-<h1>Catálogo de Productos</h1>
+{% extends 'base.html' %}
 
-<ul>
+{% block content %}
+<h2 class="mb-4">Catálogo de Productos</h2>
+
+<div class="row">
     {% for p in productos %}
-    <li>
-        <a href="/producto/{{ p.id }}/">
-            {{ p.nombre }} - ${{ p.precio_base }}
-        </a>
-    </li>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+
+            {% if p.imagen1 %}
+            <img src="{{ p.imagen1.url }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+            {% else %}
+            <div class="bg-secondary text-white p-5 text-center">
+                Sin imagen
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+                <h5 class="card-title">{{ p.nombre }}</h5>
+                <p class="card-text">${{ p.precio_base }}</p>
+                <a href="/producto/{{ p.id }}/" class="btn btn-primary">Ver detalles</a>
+            </div>
+
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
+
+{% endblock %}
