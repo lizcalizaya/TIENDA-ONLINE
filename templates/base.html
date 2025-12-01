@@ -3,10 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Tienda Online</title>
+    <button id="modoToggle" class="btn btn-outline-light">🌙</button>
+
 
     <!-- Bootstrap 5.3 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body.dark-mode {
+        background-color: #121212;
+        color: white;
+    }
+
+    body.dark-mode .card {
+        background-color: #1f1f1f;
+        color: white;
+    }
+
+    body.dark-mode .navbar {
+        background-color: #000 !important;
+    }
+
+    body.dark-mode a {
+        color: #ffda79;
+    }
+</style>
+
 </head>
+<script>
+    const toggleBtn = document.getElementById('modoToggle');
+    const body = document.body;
+
+    // cargar lo que el usuario eligió antes
+    if (localStorage.getItem('modo') === 'oscuro') {
+        body.classList.add('dark-mode');
+        toggleBtn.textContent = '☀️';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('modo', 'oscuro');
+            toggleBtn.textContent = '☀️';
+        } else {
+            localStorage.setItem('modo', 'claro');
+            toggleBtn.textContent = '🌙';
+        }
+    });
+</script>
 
 <body class="bg-light">
 
@@ -15,6 +59,20 @@
             <a class="navbar-brand" href="/">Tienda Online</a>
         </div>
     </nav>
+        <div class="bg-white py-2 border-bottom mb-4">
+            <div class="container d-flex gap-3">
+
+                <a href="/" class="text-decoration-none">Todos</a>
+
+                {% for c in categorias %}
+                    <a href="/?categoria={{ c.id }}" class="text-decoration-none">
+                        {{ c.nombre }}
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+
 
     <div class="container">
         {% block content %}
