@@ -15,6 +15,10 @@ urlpatterns = [
     path('pedido/confirmado/<uuid:token>/', views.pedido_confirmado, name='pedido_confirmado'),
     path('seguimiento/<uuid:token>/', views.seguimiento, name='seguimiento'),
     path('seguir_seguimiento/', views.seguir_seguimiento, name='seguir_seguimiento'),
+<<<<<<< HEAD
+    path('reporte/', views.reporte_pedidos, name='reporte_pedidos'),
+=======
+>>>>>>> fd4c1758b4aa98ecb409f0bf86a9c2d15065e7af
 
 ]
 

@@ -2,6 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Producto, Categoria, Pedido, PedidoImagenes
 from django.utils import timezone
 from .forms import PedidoForm
+<<<<<<< HEAD
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from django.db.models import Count
+=======
+>>>>>>> fd4c1758b4aa98ecb409f0bf86a9c2d15065e7af
 
 
 def catalogo(request):
@@ -87,3 +93,47 @@ def seguir_seguimiento(request):
         return redirect("seguimiento", token=token)
 
     return render(request, "seguir_seguimiento.html")
+<<<<<<< HEAD
+
+@login_required
+def reporte_pedidos(request):
+    
+    fecha_desde_str = request.GET.get('desde')
+    fecha_hasta_str = request.GET.get('hasta')
+    plataforma = request.GET.get('plataforma')
+
+    
+    pedidos = Pedido.objects.all()
+
+   
+    if fecha_desde_str:
+        fecha_desde = datetime.strptime(fecha_desde_str, "%Y-%m-%d").date()
+        pedidos = pedidos.filter(fecha_creado__date__gte=fecha_desde)
+
+    if fecha_hasta_str:
+        fecha_hasta = datetime.strptime(fecha_hasta_str, "%Y-%m-%d").date()
+        pedidos = pedidos.filter(fecha_creado__date__lte=fecha_hasta)
+
+    
+    if plataforma and plataforma != 'todas':
+        pedidos = pedidos.filter(plataforma=plataforma)
+
+    
+    resumen_por_estado = pedidos.values('estado').annotate(total=Count('id')).order_by('estado')
+
+    
+    etiquetas = [item['estado'] for item in resumen_por_estado]
+    valores = [item['total'] for item in resumen_por_estado]
+
+    context = {
+        'resumen_por_estado': resumen_por_estado,
+        'etiquetas': etiquetas,
+        'valores': valores,
+        'fecha_desde': fecha_desde_str or '',
+        'fecha_hasta': fecha_hasta_str or '',
+        'plataforma_seleccionada': plataforma or 'todas',
+    }
+
+    return render(request, 'reporte_pedidos.html', context)
+=======
+>>>>>>> fd4c1758b4aa98ecb409f0bf86a9c2d15065e7af
