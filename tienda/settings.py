@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'rest_framework',
 
+=======
+>>>>>>> fd4c1758b4aa98ecb409f0bf86a9c2d15065e7af
     'mainApp',
 ]
 

@@ -2,9 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Producto, Categoria, Pedido, PedidoImagenes
 from django.utils import timezone
 from .forms import PedidoForm
+<<<<<<< HEAD
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.db.models import Count
+=======
+>>>>>>> fd4c1758b4aa98ecb409f0bf86a9c2d15065e7af
 
 
 def catalogo(request):
@@ -90,6 +93,7 @@ def seguir_seguimiento(request):
         return redirect("seguimiento", token=token)
 
     return render(request, "seguir_seguimiento.html")
+<<<<<<< HEAD
 
 @login_required
 def reporte_pedidos(request):
@@ -131,3 +135,5 @@ def reporte_pedidos(request):
     }
 
     return render(request, 'reporte_pedidos.html', context)
+=======
+>>>>>>> fd4c1758b4aa98ecb409f0bf86a9c2d15065e7af
