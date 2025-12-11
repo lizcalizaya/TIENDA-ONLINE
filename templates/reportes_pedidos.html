@@ -1,0 +1,67 @@
+{% extends 'base.html' %}  {# si tienes base, si no, quita esto #}
+
+{% block content %}
+<h1>Reporte de Pedidos por Estado</h1>
+
+<form method="get">
+  <label>Desde:</label>
+  <input type="date" name="desde" value="{{ fecha_desde }}">
+  
+  <label>Hasta:</label>
+  <input type="date" name="hasta" value="{{ fecha_hasta }}">
+
+  <label>Plataforma:</label>
+  <select name="plataforma">
+    <option value="todas" {% if plataforma_seleccionada == 'todas' %}selected{% endif %}>Todas</option>
+    <option value="web" {% if plataforma_seleccionada == 'web' %}selected{% endif %}>Web</option>
+    <option value="instagram" {% if plataforma_seleccionada == 'instagram' %}selected{% endif %}>Instagram</option>
+    <option value="facebook" {% if plataforma_seleccionada == 'facebook' %}selected{% endif %}>Facebook</option>
+    <option value="whatsapp" {% if plataforma_seleccionada == 'whatsapp' %}selected{% endif %}>WhatsApp</option>
+    <option value="presencial" {% if plataforma_seleccionada == 'presencial' %}selected{% endif %}>Presencial</option>
+    <option value="otro" {% if plataforma_seleccionada == 'otro' %}selected{% endif %}>Otro</option>
+  </select>
+
+  <button type="submit">Filtrar</button>
+</form>
+
+<hr>
+
+<h2>Tabla de pedidos por estado</h2>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>Estado</th>
+    <th>Cantidad</th>
+  </tr>
+  {% for fila in resumen_por_estado %}
+  <tr>
+    <td>{{ fila.estado }}</td>
+    <td>{{ fila.total }}</td>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="2">No hay datos para los filtros seleccionados.</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<hr>
+
+<h2>Gráfico</h2>
+<canvas id="graficoEstados"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('graficoEstados').getContext('2d');
+  const graficoEstados = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: JSON.parse('{{ etiquetas|safe }}'),
+        datasets: [{
+            label: 'Cantidad de pedidos',
+            data: JSON.parse('{{ valores|safe }}'),
+        }]
+    }
+});
+</script>
+
+{% endblock %}

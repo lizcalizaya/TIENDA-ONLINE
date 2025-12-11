@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4 text-center">
+    Seguimiento del Pedido
+</h2>
+
+<div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+
+    <p><strong>Cliente:</strong> {{ pedido.nombre_cliente }}</p>
+
+    <p><strong>Producto:</strong> 
+        {% if pedido.producto %}
+            {{ pedido.producto.nombre }}
+        {% else %}
+            <span class="text-muted">No asociado</span>
+        {% endif %}
+    </p>
+
+    <p><strong>Estado del pedido:</strong> 
+        <span class="badge bg-success">{{ pedido.estado }}</span>
+    </p>
+
+    <p><strong>Estado de pago:</strong> 
+        <span class="badge bg-info text-dark">{{ pedido.pago }}</span>
+    </p>
+
+    <p><strong>Fecha solicitada:</strong> 
+        {{ pedido.fecha_necesidad|default:"No especificada" }}
+    </p>
+
+    <hr>
+
+    <h5>Imagen(es) enviada(s):</h5>
+
+    {# Imagen única (si se usó "imagen_referencia") #}
+    {% if pedido.imagen_referencia %}
+        <img src="{{ pedido.imagen_referencia.url }}" class="img-fluid rounded mb-3" style="max-height: 250px;">
+    {% endif %}
+
+    {# SI TIENES IMÁGENES MÚLTIPLES (PedidoImagenes) #}
+    {% if pedido.imagenes.all %}
+        <div class="d-flex flex-wrap gap-3">
+            {% for img in pedido.imagenes.all %}
+                <img src="{{ img.imagen.url }}" class="img-thumbnail" style="max-width: 160px;">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+<div class="text-center mt-4">
+    <a href="/" class="btn btn-secondary">Volver al inicio</a>
+</div>
+
+{% endblock %}
